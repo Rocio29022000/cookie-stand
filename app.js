@@ -22,10 +22,18 @@ const seattle = {
         console.log(this.customersEachHour)
     },
     calcCookiesEachHour: function(){
-        console.log("hi")
-    },
+        for (let i = 0; i < hours.length; i++){
+            let multi = this.customersEachHour[i] * this.avgCookiesPerCust;
+            this.cookiesEachHour.push(multi)
+            this.totalDailyCookies += multi
+        }
+        console.log(this.cookiesEachHour)
+        console.log(this.totalDailyCookies)
+    }, 
+    
     render: function(){
         this.calcCustomersEachHour()
+        this.calcCookiesEachHour()
         const article = document.createElement("article");
         parentElement.appendChild(article);
         const h3 = document.createElement("h3");
@@ -60,11 +68,3 @@ function randomCust(min,max){
 
 // console.log(seattle.totalDailyCookies())
 
-// totalDailyCookies: function(){
-    //     let totalDailyCookies = 0
-    //     console.log(this.cookiesEachHour.length)
-    //     for (let i = 0; i < this.cookiesEachHour.length; i++){
-    //         totalDailyCookies += this.cookiesEachHour[i];
-    //     }
-    //     return totalDailyCookies
-    // }
