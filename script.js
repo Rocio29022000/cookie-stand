@@ -25,6 +25,7 @@ function Store(storeName, minCustPerHour, maxCustPerHour, avgCookiesPerCust){
     this.render()
 }
 
+// Creates random number and pushes it to customer each hour.
 Store.prototype.calcCustomersEachHour = function(){
     for (let i = 0; i < hours.length; i++ ){
         this.customersEachHour.push(randomNum(this.minCustPerHour, this.maxCustPerHour))
@@ -32,6 +33,8 @@ Store.prototype.calcCustomersEachHour = function(){
     console.log(this.customersEachHour)
 }
 
+//Calculates the cookies each hour based on the random number of customers times
+// the average cookies sold per customer at that location, and adds it to a total sum. 
 Store.prototype.calcCookiesEachHour = function(){
     for (let i = 0; i < hours.length; i++){
         let multi = this.customersEachHour[i] * this.avgCookiesPerCust;
@@ -41,6 +44,8 @@ Store.prototype.calcCookiesEachHour = function(){
     console.log(this.cookiesEachHour)
     console.log(this.totalDailyCookies)
 }
+
+//renders the results to the page
 
 Store.prototype.render = function(){
     const article = document.createElement("article");
