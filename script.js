@@ -37,57 +37,62 @@ Store.prototype.calcCustomersEachHour = function(){
 // the average cookies sold per customer at that location, and adds it to a total sum. 
 Store.prototype.calcCookiesEachHour = function(){
     for (let i = 0; i < hours.length; i++){
-        let multi = this.customersEachHour[i] * this.avgCookiesPerCust;
-        this.cookiesEachHour.push(multi)
-        this.totalDailyCookies += multi
+        let multi = Math.ceil(this.customersEachHour[i] * this.avgCookiesPerCust);
+        this.cookiesEachHour.push(multi);
+        this.totalDailyCookies += multi;
     }
-    console.log(this.cookiesEachHour)
-    console.log(this.totalDailyCookies)
 }
 
-//renders the results to the page
+//Render table on the page
+
+// add an article
+const article = document.createElement("article");
+parentElement.appendChild(article);
+
+//Add a data table
+const table = document.createElement("table");
+article.appendChild(table);
+// Add table header row
+const headerRow = document.createElement("tr");
+table.appendChild(headerRow);
+
+//add column 1
+let empty = document.createElement("td")
+empty.textContent = " "
+headerRow.appendChild(empty)
+
+//add table header cells
+for (let i=0; i < hours.length; i++){
+    let hoursHeaderCell = document.createElement("th")
+    hoursHeaderCell.textContent = hours[i]
+    headerRow.appendChild(hoursHeaderCell)
+}
+    //add last column
+    let total = document.createElement("th")
+    total.textContent = "Total"
+    headerRow.appendChild(total)
 
 Store.prototype.render = function(){
-    const article = document.createElement("article");
-    parentElement.appendChild(article);
-    const h3 = document.createElement("h3");
-    h3.textContent = this.storeName;
-    article.appendChild(h3);
-    const ul = document.createElement("ul");
-    article.appendChild(ul);
-    for (let i = 0; i < hours.length; i++ ){  
-        const li = document.createElement("li")
-        li.textContent = ` ${hours[i]}  ${Math.floor(this.cookiesEachHour[i])} cookies `
-        ul.appendChild(li)
-    }
-    const li = document.createElement("li")
-    li.textContent = `Total: ${Math.floor(this.totalDailyCookies)} cookies`
-    ul.appendChild(li)
+    //add data row
+    const dataRow = document.createElement("tr");
+    table.appendChild(dataRow);
 
-    // add a data table
-    const table = document.createElement("table");
-    article.appendChild(table);
-
-    // add the header row
-    const headerRow = document.createElement("tr");
-    table.appendChild(headerRow);
-
-    //add table header cells
-    for (let i=0; i < hours.length; i++){
-        let hoursHeaderCell = document.createElement("th")
-        hoursHeaderCell.textContent = hours[i]
-        headerRow.appendChild(hoursHeaderCell)
+    //add column 1
+    let cities = document.createElement("td")
+    cities.textContent = this.storeName
+    dataRow.appendChild(cities)
+    
+    //add data row
+    for (let i = 0; i < hours.length; i++){
+        let cookiesEH = document.createElement("td");
+        cookiesEH.textContent = this.cookiesEachHour[i];
+        dataRow.appendChild(cookiesEH);
     }
 
-    // // add data row
-    // const dataRow = document.createElement("tr");
-    // table.appendChild(dataRow);
-
-    // // add data cell
-    // let cookiesEH = document.createElement("td");
-    // cookiesEH.textContent = this.cookiesEachHour;
-    // dataRow.appendChild(cookiesEH);
-
+    //add last column data
+    let totalNum = document.createElement("td")
+    totalNum.textContent = this.totalDailyCookies
+    dataRow.appendChild(totalNum)
   
 }
 
