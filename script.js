@@ -61,7 +61,7 @@ Store.prototype.newStore = function(){
 
 function tableHeader(){
      // Add table HEADER ROW:
-     const headerRow = document.createElement("tr");
+     const headerRow = document.createElement("thead");
      table.appendChild(headerRow);
 
     //  let cities = document.createElement("Store Location");
@@ -120,54 +120,24 @@ const dubai = new Store("Dubai", 11, 38, 3.7);
 const paris = new Store("Paris", 20, 38, 2.3);
 const lima = new Store("Lima", 2, 16, 4.6);
 
-// function hourlyTotals() {
-//     const tr = document.createElement("tr");
-//     const th = document.createElement("th");
-//     th.textContent = "Hourly Totals";
-//     tr.appendChild(th);
-  
-//     for (let i = 0; i < hours.length; i++) {
-//       const th = document.createElement("th");
-//       let hoursAdded = 0;
-//       for (let j = 0; j < newStores.length; j++) {
-//         const hourAmount = newStores[j].cookiesEachHour[i];
-//         hoursAdded += hourAmount;
-//       }
-//       th.textContent = hoursAdded;
-//       tr.appendChild(th);
-//     }
-  
-//     let totalTotals = 0;
-//     for (let i = 0; i < newStores.length; i++) {
-//       totalTotals += newStores[i].totalDailyCookies;
-//     }
-  
-//     const totalsCell = document.createElement("th");
-//     totalsCell.textContent = totalTotals;
-//     tr.appendChild(totalsCell);
-  
-//     table.appendChild(tr);
-//   }
-//   hourlyTotals();
+
 
   function tableFooter(){
     const footerRow = document.createElement("tfoot");
     const tr = document.createElement("tr");
     const th = document.createElement("th");
-    const td = document.createElement("td");
     th.textContent = "Hourly Totals"
-    table.appendChild(footerRow)
-    footerRow.appendChild(tr)
     tr.appendChild(th)
 
     for (let i = 0; i < hours.length; i++) {
+        const th = document.createElement("th");
         let hoursAdded = 0;
         for (let j = 0; j < newStores.length; j++) {
             const hourAmount = newStores[j].cookiesEachHour[i];
             hoursAdded += hourAmount;
         }
-        td.textContent = hoursAdded;
-        tr.appendChild(td);
+        th.textContent = hoursAdded;
+        tr.appendChild(th);
     }
 
 
@@ -178,8 +148,8 @@ const lima = new Store("Lima", 2, 16, 4.6);
     const totalsCell = document.createElement("td");
     totalsCell.textContent = totalTotals;
     tr.appendChild(totalsCell);
-
-
+    footerRow.appendChild(tr)
+    table.appendChild(footerRow)
 
   }
   tableFooter()
