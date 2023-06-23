@@ -57,8 +57,7 @@ Store.prototype.newStore = function(){
     newStores.push(this);
 }
 
-//Render table on the page
-
+//Add table on the page
 function tableHeader(){
      // Add table HEADER ROW:
      const headerRow = document.createElement("thead");
@@ -88,6 +87,7 @@ function tableHeader(){
 }    
 tableHeader();    
 
+//Render function for hte main body of the table
 Store.prototype.render = function(){
     // Add DATA ROW:
     const dataRow = document.createElement("tr");
@@ -112,17 +112,18 @@ Store.prototype.render = function(){
   
 }
 
+// Hard coded Stores
+function hardCodeStores(){
+    const seattle = new Store("Seattle", 23, 65, 6.3);
+    const tokyo = new Store("Tokyo", 3, 24, 1.2);
+    const dubai = new Store("Dubai", 11, 38, 3.7);
+    const paris = new Store("Paris", 20, 38, 2.3);
+    const lima = new Store("Lima", 2, 16, 4.6);
+}
+hardCodeStores();
 
-
-const seattle = new Store("Seattle", 23, 65, 6.3);
-const tokyo = new Store("Tokyo", 3, 24, 1.2);
-const dubai = new Store("Dubai", 11, 38, 3.7);
-const paris = new Store("Paris", 20, 38, 2.3);
-const lima = new Store("Lima", 2, 16, 4.6);
-
-
-
-  function tableFooter(){
+// Add footer to the table with hourly totals
+function tableFooter(){
     const footerRow = document.createElement("tfoot");
     const tr = document.createElement("tr");
     const th = document.createElement("th");
@@ -151,16 +152,8 @@ const lima = new Store("Lima", 2, 16, 4.6);
     footerRow.appendChild(tr)
     table.appendChild(footerRow)
 
-  }
-  tableFooter()
-
-
-console.log(seattle)
-console.log(tokyo)
-console.log(dubai)
-console.log(paris)
-console.log(lima)
-
+}
+tableFooter()
 
 
 
