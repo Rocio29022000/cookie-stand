@@ -3,6 +3,7 @@
 const parentElement = document.getElementById("shops");
 const newStoreForm = document.getElementById("new-store-form");
 
+
 //Create article & table
 // const article = document.createElement("article");
 // parentElement.appendChild(article);
@@ -57,15 +58,11 @@ Store.prototype.newStore = function(){
     newStores.push(this);
 }
 
-//Add table on the page
+//Add table header
 function tableHeader(){
      // Add table HEADER ROW:
      const headerRow = document.createElement("thead");
      table.appendChild(headerRow);
-
-    //  let cities = document.createElement("Store Location");
-    //  cities.textContent = "Store Name";
-    //  headerRow.appendChild(cities);
 
     // Add HEADER COLUMN 1 (empty):
     let empty = document.createElement("td")
@@ -86,6 +83,12 @@ function tableHeader(){
 
 }    
 tableHeader();    
+
+//Add table body
+// function tableBody(){
+//     const headerRow = document.createElement("thead");
+//     table.appendChild(headerRow);
+// } 
 
 //Render function for hte main body of the table
 Store.prototype.render = function(){
@@ -121,6 +124,27 @@ function hardCodeStores(){
     const lima = new Store("Lima", 2, 16, 4.6);
 }
 hardCodeStores();
+
+newStoreForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Hi")
+    table.innerHTML = "";
+    tableHeader();
+
+    for (let i=0; i < newStores.length; i++){
+        newStores[i].render();
+    }
+
+    const storeNameInput = event.target.name.value;
+    const minCustInput = event.target.minCust.value;
+    const maxCustInput = event.target.maxCust.value;
+    const avgCookiesInput = event.target.avgCookies.value;
+
+    const store = new Store(storeNameInput, minCustInput, maxCustInput, avgCookiesInput);
+
+    newStoreForm.reset();
+    tableFooter()
+})
 
 // Add footer to the table with hourly totals
 function tableFooter(){
