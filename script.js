@@ -2,14 +2,14 @@
 
 const parentElement = document.getElementById("shops");
 const newStoreForm = document.getElementById("new-store-form");
-const parentElement_2 = document.getElementById("staff")
+// const parentElement_2 = document.getElementById("staff")
 
 
-//Create article & table
+//Create table
 const storeTable = document.createElement("table");
 parentElement.appendChild(storeTable);
-const staffTable = document.createElement("table");
-parentElement_2.appendChild(staffTable);
+// const staffTable = document.createElement("table");
+// parentElement_2.appendChild(staffTable);
  
 //Hours & rate
 const hours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"];
@@ -32,20 +32,22 @@ function Store(storeName, minCustPerHour, maxCustPerHour, avgCookiesPerCust){
     this.avgCookiesPerCust = avgCookiesPerCust;
     this.customersEachHour = [];
     this.cookiesEachHour = [];
-    this.staffNeeded = [];
+    // this.staffNeeded = [];
     this.totalDailyCookies = 0;
     this.calcCustomersEachHour();
     this.calcCookiesEachHour();
+    // this.calcStaffNeeded();
     this.newStore();
     this.render();
-    this.renderStaff();
+    // this.renderStaff();
 }
 
 // Creates random number and pushes it to customer each hour.
 Store.prototype.calcCustomersEachHour = function(){
     for (let i = 0; i < hours.length; i++ ){
-        this.customersEachHour.push(randomNum(this.minCustPerHour, this.maxCustPerHour)*rate[i])
+        this.customersEachHour.push(randomNum(this.minCustPerHour, this.maxCustPerHour)) 
     }
+    console.log(this.cookiesEachHour)
 }
 
 //Calculates the cookies each hour based on the random number of customers times the average cookies sold per customer at that location, and adds it to a total sum. 
@@ -53,12 +55,17 @@ Store.prototype.calcCookiesEachHour = function(){
     for (let i = 0; i < hours.length; i++){
         let multi = Math.ceil(this.customersEachHour[i] * this.avgCookiesPerCust);
         this.cookiesEachHour.push(multi);
-
         this.totalDailyCookies += multi;
-        this.staffNeeded.push(Math.ceil(this.cookiesEachHour[i]/20));
     }
-    console.log(this.staffNeeded)
 }
+
+// // Calculate staff needed
+// Store.prototype.calcStaffNeeded = function(){
+//     for (let i = 0; i < hours.length; i++){
+//         this.staffNeeded.push(Math.ceil(this.cookiesEachHour[i]/20));
+//     }
+
+// }
 
 //Push new store to the new store array
 Store.prototype.newStore = function(){
@@ -90,7 +97,7 @@ function tableHeader(table){
 
 }    
 tableHeader(storeTable);    
-tableHeader(staffTable);
+// tableHeader(staffTable);
 
 //Render function for hte main body of the table
 Store.prototype.render = function(){
@@ -118,29 +125,29 @@ Store.prototype.render = function(){
 }
 
 //Render function for hte main body of the table
-Store.prototype.renderStaff = function(){
-    // Add DATA ROW:
-    const dataRow = document.createElement("tr");
-    staffTable.appendChild(dataRow);
+// Store.prototype.renderStaff = function(){
+//     // Add DATA ROW:
+//     const dataRow = document.createElement("tr");
+//     staffTable.appendChild(dataRow);
 
-    // Add COLUMN 1: City names:
-    let cities = document.createElement("th")
-    cities.textContent = this.storeName
-    dataRow.appendChild(cities)
+//     // Add COLUMN 1: City names:
+//     let cities = document.createElement("th")
+//     cities.textContent = this.storeName
+//     dataRow.appendChild(cities)
     
-    // Add DATA: Staff  Each Hour:
-    for (let i = 0; i < hours.length; i++){
-        let staffEH = document.createElement("td");
-        staffEH.textContent = this.staffNeeded[i];
-        dataRow.appendChild(staffEH);
-    }
+//     // Add DATA: Staff  Each Hour:
+//     for (let i = 0; i < hours.length; i++){
+//         let staffEH = document.createElement("td");
+//         staffEH.textContent = this.staffNeeded[i];
+//         dataRow.appendChild(staffEH);
+//     }
 
     // // Add DATA: Total Daily Staff:
     // let totalNum = document.createElement("th")
     // totalNum.textContent = this.totalDailyCookies
     // dataRow.appendChild(totalNum)
   
-}
+// }
 
 // Hard coded Stores
 function hardCodeStores(){
@@ -156,7 +163,9 @@ newStoreForm.addEventListener("submit", function(event) {
     event.preventDefault();
     console.log("Hi")
     storeTable.innerHTML = "";
-    tableHeader();
+    // staffTable.innerHTML = "";
+    tableHeader(storeTable);
+    // tableHeader(staffTable);
 
     for (let i=0; i < newStores.length; i++){
         newStores[i].render();
@@ -170,11 +179,12 @@ newStoreForm.addEventListener("submit", function(event) {
     const store = new Store(storeNameInput, minCustInput, maxCustInput, avgCookiesInput);
 
     newStoreForm.reset();
-    tableFooter()
+    tableFooterStore(storeTable);
+    // tableFooterStaff(staffTable);
 })
 
 // Add footer to the table with hourly totals
-function tableFooter(table){
+function tableFooterStore(table){
     const footerRow = document.createElement("tfoot");
     const tr = document.createElement("tr");
     const th = document.createElement("th");
@@ -204,29 +214,29 @@ function tableFooter(table){
     table.appendChild(footerRow)
 
 }
-tableFooter(storeTable);
+tableFooterStore(storeTable);
 
 // Add footer to the table with hourly totals
-function tableFooter(table){
-    const footerRow = document.createElement("tfoot");
-    const tr = document.createElement("tr");
-    const th = document.createElement("th");
-    th.textContent = "Hourly Totals"
-    tr.appendChild(th)
+// function tableFooterStaff(table){
+//     const footerRow = document.createElement("tfoot");
+//     const tr = document.createElement("tr");
+//     const th = document.createElement("th");
+//     th.textContent = "Hourly Totals"
+//     tr.appendChild(th)
 
-    for (let i = 0; i < hours.length; i++) {
-        const th = document.createElement("th");
-        let hoursAdded = 0;
-        for (let j = 0; j < newStores.length; j++) {
-            const hourAmount = newStores[j].staffNeeded[i];
-            hoursAdded += hourAmount;
-        }
-        th.textContent = hoursAdded;
-        tr.appendChild(th);
-    }
+//     for (let i = 0; i < hours.length; i++) {
+//         const th = document.createElement("th");
+//         let hoursAdded = 0;
+//         for (let j = 0; j < newStores.length; j++) {
+//             const hourAmount = newStores[j].staffNeeded[i];
+//             hoursAdded += hourAmount;
+//         }
+//         th.textContent = hoursAdded;
+//         tr.appendChild(th);
+//     }
 
-    footerRow.appendChild(tr)
-    table.appendChild(footerRow)
+//     footerRow.appendChild(tr)
+//     table.appendChild(footerRow)
 
-}
-tableFooter(staffTable)
+// }
+// tableFooterStaff(staffTable)
